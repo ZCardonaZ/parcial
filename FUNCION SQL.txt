@@ -1,0 +1,57 @@
+CREATE OR REPLACE FUNCTION validar_persona(
+    p_contrasena IN VARCHAR2
+) RETURN VARCHAR2 IS
+   
+    v_tiene_minuscula BOOLEAN := FALSE;
+    v_tiene_mayuscula BOOLEAN := FALSE;
+    v_regex_min_digit VARCHAR2(500) := '.*\d.*';     
+    v_regex_min_special VARCHAR2(500) := '.*[@\$!%*?&].*'; 
+
+    v_valid BOOLEAN := TRUE;
+    v_error_message VARCHAR2(100);
+BEGIN
+
+    FOR i IN 1..LENGTH(p_contrasena) LOOP
+    
+            IF SUBSTR( p_contrasena, i, 1 ) BETWEEN 'a' AND 'z' THEN
+                v_tiene_minuscula := TRUE; 
+                EXIT;
+            END IF;
+            
+            v_error_message := 'Falta al menos una letra minúscula.';
+            
+    END LOOP;
+        
+    FOR i IN 1..LENGTH(p_contrasena) LOOP
+    
+        IF SUBSTR(p_contrasena, i, 1) BETWEEN 'A' AND 'Z' THEN
+                v_tiene_mayuscula := TRUE;
+                EXIT;
+        END IF;
+            v_error_message := 'Falta al menos una letra mayúscula.';
+    END LOOP;    
+                              
+    IF LENGTH(p_contrasena) < 13 OR LENGTH(p_contrasena) > 20 THEN
+        v_valid := FALSE;
+        v_error_message := 'La contraseña debe entre 13 y 20 caracteres';    
+    END IF;                             
+        
+    IF NOT REGEXP_LIKE(p_contrasena, v_regex_min_digit) THEN
+    
+        v_valid := FALSE;
+        v_error_message := 'Falta al menos un dígito.';
+        
+    ELSIF NOT REGEXP_LIKE(p_contrasena, v_regex_min_special) THEN
+    
+        v_valid := FALSE;
+        v_error_message := 'Falta al menos un carácter especial.';
+        
+   END IF; 
+   
+    IF v_valid AND v_tiene_minuscula AND v_tiene_mayuscula THEN
+        RETURN 'La contraseña es válida.';
+    ELSE
+        RETURN v_error_message;
+    END IF;
+    
+END validar_persona;

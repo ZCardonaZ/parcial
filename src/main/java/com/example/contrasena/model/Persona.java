@@ -14,15 +14,19 @@ public class Persona {
     private String usuario;
     @Column
     private String contrasena;
+    @Column
+    private String correo;
+
 
     //Constructors
 
     public Persona(){}
 
-    public Persona(Long id, String usuario, String contrasena) {
+    public Persona(Long id, String usuario, String contrasena, String Correo) {
         this.id = id;
         this.usuario = usuario;
         this.contrasena = contrasena;
+        this.correo = correo;
     }
 
     // Getters y Setters
@@ -35,4 +39,8 @@ public class Persona {
 
     public String getContrasena() {return contrasena;}
     public void setContrasena(String contrasena) {this.contrasena = contrasena;}
+
+    public String getCorreo() {return correo;}
+    public void setCorreo(String correo) {this.contrasena = correo;}
+
 }

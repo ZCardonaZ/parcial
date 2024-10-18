@@ -1,0 +1,32 @@
+FUNCIONES
+
+
+1- CREATE OR REPLACE FUNCTION validar_correo(p_correo VARCHAR2)
+RETURN VARCHAR2
+
+IS
+
+  v_valido VARCHAR2(3);
+BEGIN
+  
+  IF LENGTH(p_correo) BETWEEN 10 AND 30 THEN
+
+    IF REGEXP_LIKE(p_correo, '^[A-Za-z0-9]+@[A-Za-z0-9]+\.[a-z]+\.com\.co$') THEN
+      v_valido := 'Sí';
+    ELSE
+      v_valido := 'No';
+    END IF;
+  ELSE
+    v_valido := 'No';
+  END IF;
+  
+  RETURN 'El correo ' || p_correo || ' es ' || v_valido || ' válido.';
+END;
+/
+
+
+SELECT validar_correo('ejemplo@gmail.com') FROM dual;
+
+
+
+2-

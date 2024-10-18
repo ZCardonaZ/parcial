@@ -30,3 +30,21 @@ SELECT validar_correo('ejemplo@gmail.com') FROM dual;
 
 
 2-
+
+
+
+
+create or replace NONEDITIONABLE FUNCTION es_multiplo_de_3(p_numero IN NUMBER)
+RETURN VARCHAR2
+IS
+  v_resultado VARCHAR2(3);
+BEGIN
+
+  IF MOD(p_numero, 3) = 0 THEN
+    v_resultado := 'Si es multi';
+  ELSE
+    v_resultado := 'No';
+  END IF;
+
+  RETURN 'El número ' || p_numero || ' es múltiplo de 3: ' || v_resultado;
+END;
